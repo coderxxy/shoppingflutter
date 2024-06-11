@@ -67,33 +67,44 @@ class HomePageState extends State<HomePageWidget> {
 
     return Container(
       color: Colors.white,
-      child: Column(
-        children: <Widget>[
-          TextField(
-            controller: _editVC,
-            decoration: const InputDecoration(
-                contentPadding: EdgeInsets.all(20),
-                labelText: '推荐购买',
-                // helperText: '请输入您想搜索的商品',
-                hintText: '请输入您想搜索的商品'
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            TextField(
+              controller: _editVC,
+              decoration: const InputDecoration(
+                  contentPadding: EdgeInsets.all(20),
+                  labelText: '推荐购买',
+                  // helperText: '请输入您想搜索的商品',
+                  hintText: '请输入您想搜索的商品'
+              ),
+              autofocus: false,
             ),
-            autofocus: false,
-          ),
-          Text(
-            _showMsg,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-          ),
-          // RaisedButton 已被弃用
-          ElevatedButton(
-              onPressed: () {
-                if (kDebugMode) {
-                  print('选中了且已提交');
-                }
-              },
-              child: const Text('确定')
-          ),
-        ],
+            Text(
+              _showMsg,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+            // RaisedButton 已被弃用
+            ElevatedButton(
+                onPressed: () {
+                  String errMsg  = '';
+                  if(_editVC.text.isEmpty){
+                    errMsg = '请先输入商品';
+                  }
+                  else{
+                    errMsg = _editVC.text;
+                  }
+                  if (kDebugMode) {
+                    print('选中了且已提交');
+                    // alert
+                    showDialog(context: context, builder: (context)=>AlertDialog(title: Text(errMsg),));
+                  }
+                },
+                child: const Text('确定')
+            ),
+          ],
+        ),
       ),
     );
   }
