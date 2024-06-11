@@ -20,15 +20,33 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
       _clickIdx = idx;
     });
   }
+  final List<BottomNavigationBarItem> _tabbarItems = const [
+    BottomNavigationBarItem(
+        icon: Icon(Icons.home),
+        label: '首页'
+    ),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.category),
+        label: '分类'
+    ),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.shopping_cart),
+        label: '购物车'
+    ),
+    BottomNavigationBarItem(
+        icon: Icon(Icons.card_membership),
+        label: '会员中心'
+    ),
+  ];
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
     _controllerList
-    ..add(HomeTabbarPage())
-    ..add(CategoriesTabbarPage())
-    ..add(ShoppingCarTabbarPage())
-    ..add(MemberTabbarPage());
+    ..add(const HomePageWidget())
+    ..add(const CategoriesPageWidget())
+    ..add(const ShoppingCarTabbarPage())
+    ..add(const MemberPageWidget());
     // TODO: titles
     _titlesList
     ..add('首页')
@@ -58,25 +76,9 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
         type: BottomNavigationBarType.fixed,
         fixedColor: Colors.pink,
         // 当item个数超过四个时，背景色为白色，类型也会改变，使用上面的属性
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              label: '首页'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.category),
-              label: '分类'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.shopping_cart),
-              label: '购物车'
-          ),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.card_membership),
-              label: '会员中心'
-          ),
-        ],
+        items: _tabbarItems
       ),
+      body: _controllerList[_clickIdx],
     );
   }
 }

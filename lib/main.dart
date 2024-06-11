@@ -2,25 +2,25 @@ import 'package:flutter/material.dart';
 import './basemodule/xy_tabbar_module.dart';
 
 void main() {
-  runApp(appModule());
+  runApp(const appModule());
 }
 
 class appModule extends StatelessWidget {
+  const appModule({super.key});
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
-    return Container(
-      child: const MaterialApp(
-        title: '百姓生活家',
-        debugShowCheckedModeBanner: false,
-        // theme: ThemeData(
-        //   //primaryColor: Colors.pink,
-        //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
-        //   applyElevationOverlayColor: true,
-        //   useMaterial3: true,
-        // ),
-        home: ShopAppTabar(),
-      ),
+    return const MaterialApp(
+      title: '百姓生活家',
+      debugShowCheckedModeBanner: false,
+      // theme: ThemeData(
+      //   //primaryColor: Colors.pink,
+      //   colorScheme: ColorScheme.fromSeed(seedColor: Colors.pink),
+      //   applyElevationOverlayColor: true,
+      //   useMaterial3: true,
+      // ),
+      home: ShopAppTabar(),
     );
   }
 }

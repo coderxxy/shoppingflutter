@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-class CategoriesTabbarPage extends StatelessWidget{
+class CategoriesPageWidget extends StatelessWidget{
+  const CategoriesPageWidget({super.key});
+
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return const Scaffold(
       body: Center(
         child: Text('分类'),
       ),
