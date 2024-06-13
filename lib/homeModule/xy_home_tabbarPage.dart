@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_flutter/networkModule/networkModule.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 // class HomePageWidget extends StatelessWidget{
