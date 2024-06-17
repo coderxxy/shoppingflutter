@@ -2,6 +2,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_flutter/networkModule/networkModule.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flukit/flukit.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 
 // class HomePageWidget extends StatelessWidget{
@@ -64,7 +66,10 @@ class HomePageState extends State<HomePageWidget> {
   Widget build(BuildContext context) {
 
     AppNetworkWidget.homePageNetwork();
-
+    final List<String> _imgUrls = [
+      "https://img1.baidu.com/it/u=3672580894,2320729294&fm=253&fmt=auto&app=138&f=JPEG?w=852&h=500",
+      'https://wx2.sinaimg.cn/large/005vUG0aly4gowhn5wjd1j31c00u0toe.jpg',
+      'http://img2.baidu.com/it/u=2860001816,1136064599&fm=253&app=138&f=JPEG?w=1202&h=800'];
     return Container(
       color: Colors.white,
       child: SingleChildScrollView(
@@ -103,9 +108,51 @@ class HomePageState extends State<HomePageWidget> {
                 },
                 child: const Text('确定')
             ),
+            AspectRatio(
+                aspectRatio: 1.0,
+              child: Swiper(
+                indicatorAlignment: AlignmentDirectional.topEnd,
+                  circular: true,
+                  autoStart: true,
+                  indicator: NumberSwiperIndicator(),
+                  children:AspecRaticImgs(_imgUrls),
+              ),
+            ),
           ],
         ),
       ),
     );
   }
+}
+
+class NumberSwiperIndicator extends SwiperIndicator{
+  @override
+  Widget build(BuildContext context, int index, int itemCount){
+    if (itemCount > 1){
+      return Container(
+        decoration: BoxDecoration(
+          color: Colors.black45,
+          borderRadius: BorderRadius.circular(20.0)
+        ),
+        margin: const EdgeInsets.only(top: 10.0, right: 5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 6.0, vertical: 2.0),
+        child: Text("${++index}/$itemCount", style: const TextStyle(color: Colors.white, fontSize: 18.0),),
+      );
+    }
+    else{
+      return Container();
+    }
+  }
+}
+
+List<Widget> AspecRaticImgs(List<String> imgUrl){
+  return imgUrl.map<Widget>((url) {
+    return CachedNetworkImage(
+      imageUrl: url,
+      height: 100,
+      fit: BoxFit.cover,
+      // placeholder: Custom,
+      // errorWidget: Image.asset('images/bg_gray.png', height: 200),
+    );
+  }).toList();
 }
