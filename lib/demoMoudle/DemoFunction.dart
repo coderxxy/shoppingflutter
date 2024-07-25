@@ -122,3 +122,53 @@ class Impostor implements Person1{
 }
 
 String greetBob(Person1 person) => person.greet('noBody');
+
+// 使用mixin为类添加功能
+class Performer{
+  bool canPlayPiano = false;
+  bool canCompose = false;
+  bool canConduct = false;
+  void entertainMe(){
+    if(canCompose){
+      print("canCompose");
+    }
+    else if(canPlayPiano){
+      print('canPlayPiano');
+    }
+    else if(canConduct){
+
+    }
+  }
+}
+// 用 关键字 on 指定 哪些类可以使用 mixin 类
+mixin Musical on Performer{
+  @override
+  void entertainMe(){
+    super.entertainMe();
+    if(canCompose){
+      print("canCompose");
+    }
+    else if(canPlayPiano){
+      print('canPlayPiano');
+    }
+  }
+}
+//
+class Musician extends Performer with Musical{
+  @override
+  late final bool canConduct;
+  Musician() : canConduct = true;
+  void entertainMe(){
+    super.entertainMe();
+  }
+}
+
+// 枚举
+// 枚举不能成为 子类， 不可以mixin 不可以实现一个枚举
+// 不能显式的实例化一个枚举类
+enum JFColor {red, green, blue}
+void colorHandle(){
+  JFColor color = JFColor.red;
+  List<JFColor> colorList = JFColor.values;
+}
+
