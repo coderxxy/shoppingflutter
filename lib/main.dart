@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import './basemodule/xy_tabbar_module.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() {
   runApp(const appModule());
@@ -10,6 +11,12 @@ class appModule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    ScreenUtil.init(
+      context,
+      designSize: const Size(375, 667),
+      splitScreenMode: false,
+      minTextAdapt: true
+    );
     // TODO: implement build
     return const MaterialApp(
       title: '百姓生活家',
