@@ -20,10 +20,9 @@ class ImageUIWidget extends StatelessWidget {
     ),
   );
 }
-/// listView
+/// 静态 listView 写静态功能页面
 class ListViewUIWidget extends StatelessWidget {
   const ListViewUIWidget({super.key});
-
   @override
   Widget build(BuildContext context) => Container(
     padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),   // 左、上、右、下
@@ -31,6 +30,7 @@ class ListViewUIWidget extends StatelessWidget {
       // 类似 oc 的 layer
     ),
     child: ListView(
+      scrollDirection: Axis.vertical, // default: Axis.vertical
       children: const <Widget>[
         ListTile(
           leading: Icon(Icons.access_time),
@@ -44,6 +44,39 @@ class ListViewUIWidget extends StatelessWidget {
     ),
   );
 }
+// 动态 listview
+class ListViewDyWidget extends StatelessWidget {
+  final List<String> items;
+  const ListViewDyWidget({super.key, required this.items});
+  @override
+  Widget build(BuildContext context) {
+    return ListView.builder(
+      itemCount: 10,
+        itemBuilder: (context, idx){
+          return ListTile(
+            title: Text('$idx'),
+          );
+        }
+    );
+  }
+}
+// GridView
+class GridViewWidget extends StatelessWidget {
+  const GridViewWidget({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return GridView.count(
+        crossAxisCount: 3,
+      crossAxisSpacing: 10,
+      children: const [
+        Text('coderxxy'),
+        Text('coderxxy'),
+        Text('coderxxy'),
+      ],
+    );
+  }
+}
+
 
 
 
