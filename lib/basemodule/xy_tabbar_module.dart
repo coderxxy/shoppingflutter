@@ -1,8 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_flutter/homeModule/xy_home_tabbarPage.dart';
 import 'package:shopping_flutter/categoriesModule/xy_categories_tabbarPage.dart';
 import 'package:shopping_flutter/shoppingCarModule/xy_shoppingCar_tabbarPage.dart';
 import 'package:shopping_flutter/mineModule/xy_mine_tabbarPage.dart';
+import 'package:shopping_flutter/demoMoudle/FlutterTestModuleWidget.dart';
 
 class ShopAppTabar extends StatefulWidget{
   const ShopAppTabar({super.key});
@@ -56,6 +58,18 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
   }
   @override
   Widget build(BuildContext context) {
+    // TODO: click floatButton
+    void clickFloatBtn(){
+      if(kDebugMode){
+        print("push to test module!\n");
+      }
+      // TODO: push action
+      FlutterTestModuleWidget testModule = FlutterTestModuleWidget();
+      // testModule.title = "TestModule";
+      // testModule.actionsTitle = ["Static ListView", "Dynamic ListView", "GridView"];
+      Navigator.push(context, MaterialPageRoute(builder: (context) => testModule));
+      // Navigator.push(context, MaterialPageRoute(builder: (context) => FlutterTestModuleWidget(title: "TestModule")));
+    };
     // TODO: implement build
     return Scaffold(
       appBar: AppBar(
@@ -70,6 +84,36 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
           fontSize: 20,
         ),
       ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.green,
+        onPressed: clickFloatBtn,
+        shape:const  CircleBorder(),    // 将形状设置成圆形
+          child: const Icon(Icons.push_pin),
+      ),
+      //   floatingActionButton: Draggable(
+      //     data: 'draggable',
+      //     feedback: Container(
+      //       width: 56.0,
+      //       height: 56.0,
+      //       decoration: BoxDecoration(
+      //         shape: BoxShape.circle,
+      //         color: Theme.of(context).floatingActionButtonTheme.backgroundColor,
+      //       ),
+      //       child: Icon(Icons.push_pin, color: Theme.of(context).floatingActionButtonTheme.backgroundColor),
+      //     ),
+      //     childWhenDragging: Container(),
+      //     child: SizedBox(
+      //       width: 56,
+      //       height: 56,
+      //       child: FloatingActionButton(
+      //         backgroundColor: Colors.green,
+      //         onPressed: clickFloatBtn,
+      //         shape:const  CircleBorder(),    // 将形状设置成圆形
+      //         child: const Icon(Icons.push_pin),
+      //       ),
+      //     ),
+      //   ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _clickIdx,
         onTap: _clickTabbarAction,
@@ -78,8 +122,11 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
         // 当item个数超过四个时，背景色为白色，类型也会改变，使用上面的属性
         items: _tabbarItems
       ),
-      body: _controllerList[_clickIdx],
+      body: _controllerList[_clickIdx]
     );
   }
 }
+
+
+
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class AppBarWidge extends StatefulWidget{
-  const AppBarWidge({super.key});
+class AppBarWidget extends StatefulWidget{
+  const AppBarWidget({super.key});
   Widget build(BuildContext buildContext){
     return AppBar();
   }
