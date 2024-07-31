@@ -40,6 +40,7 @@ dependencies:
   flukit: ^3.0.1
   cached_network_image: ^3.3.1
 #  flutter_swiper: ^1.1.6
+#  flutter_styled_toast: ^2.2.1
 
 dev_dependencies:
   flutter_test:
@@ -62,11 +63,19 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - images/mine/mine_icon_disk@2x.png
+    - images/mine/mine_icon_order@2x.png
+    - images/mine/mine_icon_ticket@2x.png
+    - images/mine/mine_icon_welfare@2x.png
+    - images/mine/mine_sign_icon@2x.png
+    - images/mine/mine_sign_icon_left@2x.png
 
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg
+
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

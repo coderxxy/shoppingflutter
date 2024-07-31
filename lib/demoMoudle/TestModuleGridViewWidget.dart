@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class TestModuleListViewWidget extends StatelessWidget {
-
-  final String itemTitle;
-  const TestModuleListViewWidget({super.key, this.itemTitle = "TestModuleListViewWidget"});
+class TestModuleGridViewWidget extends StatelessWidget {
+  // 参数
+  late String itemTitle;
+  // 初始化列表
+  TestModuleGridViewWidget({super.key}) : itemTitle = "TestModuleGridViewWidget";
 
   @override
   Widget build(BuildContext context) {
@@ -21,15 +22,8 @@ class TestModuleListViewWidget extends StatelessWidget {
         ),
       ),
       body: Container(
-        color: Colors.blueGrey,
+        color: Colors.cyanAccent.withAlpha(100),
       ),
     );
   }
 }
-
-
-// ListView的创建方式有多种：
-// ListView()
-// ListView.builder()
-// ListView.separated()
-// ListView.custom()
