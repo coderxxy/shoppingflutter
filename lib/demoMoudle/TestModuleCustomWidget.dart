@@ -11,13 +11,36 @@ class TestModuleCustomWidget extends StatelessWidget {
         title: Text("TestModuleCustomWidget"),
         backgroundColor: Colors.blueAccent,
       ),
-      body: Container(
-        color: Colors.white,
-        child:const CustomPainRoute(),
+      body: Column(
+        children: [
+          Container(
+            padding:EdgeInsets.only(left: 0, top: 10, right: 0,bottom: 10),
+            color: Colors.white,
+            child:const CustomPainRoute(),
+          ),
+          Center(
+            child:Card(
+              elevation: 8.0, // 卡片的阴影高度
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10.0), // 卡片的圆角
+              ),
+              child: Container(
+                color: Colors.yellowAccent,
+                padding: EdgeInsets.all(12.0),
+                child: Text('Custom Card'),
+              ),
+            ),
+          ),
+
+        ],
       ),
     );
   }
 }
+
+
+
+
 class CustomPainRoute extends StatelessWidget {
   const CustomPainRoute({super.key});
   @override
@@ -77,5 +100,4 @@ class MyPainter extends CustomPainter{
     // TODO: implement shouldRepaint
     throw UnimplementedError();
   }
-  
 }

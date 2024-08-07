@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shopping_flutter/basemodule/xy_appbar_widget.dart';
+import 'package:shopping_flutter/demoMoudle/TestModuleBaseWidget.dart';
 import 'package:shopping_flutter/demoMoudle/TestModuleButtonWidget.dart';
 import 'package:shopping_flutter/demoMoudle/TestModuleCustomWidget.dart';
 import 'package:shopping_flutter/demoMoudle/TestModuleGridViewWidget.dart';
@@ -12,7 +13,7 @@ import 'package:shopping_flutter/demoMoudle/TestModuleUILayoutWidget.dart';
 
 class FlutterTestModuleWidget extends StatelessWidget {
   final String title;
-  final List<String> _actionsTitle = ["ListView", "GridView", "ImageWidget", "buttonWidget", "LayoutWidget", "CustomWidget"];
+  final List<String> _actionsTitle = ["ListView", "GridView", "ImageWidget", "buttonWidget", "LayoutWidget", "CustomWidget", "BaseWidget"];
   final List<String> _iconsSource = [
     "images/mine/mine_icon_disk@2x.png",
     "images/mine/mine_icon_order@2x.png",
@@ -72,6 +73,12 @@ class FlutterTestModuleWidget extends StatelessWidget {
               }
               if(title.contains("custom".toLowerCase())){
                 Navigator.push(context, MaterialPageRoute(builder: (context) => const TestModuleCustomWidget()));
+              }
+              if(title.contains("BaseWidget".toLowerCase())){
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TestModuleBaseWidget())
+                );
               }
               if(kDebugMode){
                 print("click $idx cell, ${_actionsTitle[idx]}");
