@@ -33,10 +33,10 @@ class TestModuleBaseWidget extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => DemoImageWidget(itemTitle: title)));
       }
       if(title == "单选开关和复选框"){
-
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DemoStateWidget(navTitle: title)));
       }
       if(title == "输入框和表单"){
-
+        Navigator.push(context, MaterialPageRoute(builder: (context) => DemoTextFieldWidget(naviTitle: title)));
       }
       if(title == "进度指示器"){
 
@@ -452,7 +452,97 @@ class DemoImageWidget extends StatelessWidget {
   }
 }
 // TODO: 单选开关和复选框
+class DemoStateWidget extends StatefulWidget {
+  final String navTitle;
+  const DemoStateWidget({super.key, required this.navTitle});
+  @override
+  State<DemoStateWidget> createState() => _DemoStateWidgetState();
+}
+class _DemoStateWidgetState extends State<DemoStateWidget> {
+  bool _switchSelected = true;
+  bool _checkboxSelected = true;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.navTitle),
+        backgroundColor: Colors.blue,
+      ),
+      body: Container(
+        color: Colors.grey.withAlpha(100),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Switch(
+                  value: _switchSelected,
+                  activeTrackColor: Colors.grey.withAlpha(100),
+                  activeColor: Colors.white,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.green,
+                  onChanged: (value){
+                    setState(() {
+                      _switchSelected = value;
+                    });
+                  }),
+              Checkbox(
+                  activeColor: Colors.green,
+                  value: _checkboxSelected,
+                  onChanged: (value){
+                    setState(() {
+                      _checkboxSelected = value!;
+                    });
+                  }),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
 // TODO: 输入框和表单
+class DemoTextFieldWidget extends StatelessWidget {
+  final String naviTitle;
+  const DemoTextFieldWidget({super.key, required this.naviTitle});
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(naviTitle),
+        backgroundColor: Colors.cyanAccent,
+      ),
+      body: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(50),
+              child: ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 250, maxWidth: 200),
+                child: TextField(
+                  autofocus: true,
+                  maxLength: 11,
+                  keyboardType: TextInputType.datetime,
+                  textInputAction: TextInputAction.search,
+                  decoration: InputDecoration(
+                    contentPadding: EdgeInsets.symmetric(vertical: 4.0),
+                    hintText: "username or email",
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      // borderSide: BorderSide.none,
+                      borderSide: BorderSide(color: Colors.blue, width: 1.0, style: BorderStyle.solid),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 // TODO: 进度指示器
 
 
