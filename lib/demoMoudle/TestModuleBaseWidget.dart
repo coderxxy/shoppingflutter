@@ -1,10 +1,12 @@
 import 'dart:async';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flukit/example/example.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 @immutable
 class TestModuleBaseWidget extends StatelessWidget {
@@ -39,7 +41,7 @@ class TestModuleBaseWidget extends StatelessWidget {
         Navigator.push(context, MaterialPageRoute(builder: (context) => DemoTextFieldWidget(naviTitle: title)));
       }
       if(title == "进度指示器"){
-
+        Navigator.push(context, MaterialPageRoute(builder: (ctx) =>const DemoProgressWidget()));
       }
     }
     // TODO: cellWithIndex
@@ -461,6 +463,27 @@ class DemoStateWidget extends StatefulWidget {
 class _DemoStateWidgetState extends State<DemoStateWidget> {
   bool _switchSelected = true;
   bool _checkboxSelected = true;
+  // TODO: show alert
+  void showToast(bool status){
+    showDialog(context: context, builder: (context){
+      return AlertDialog(
+          title:const Text("show status"),
+          content:Text(status?"open":"close"),
+          actions: [
+            TextButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child:const Text("cancel")),
+            TextButton(
+                onPressed: (){
+                  Navigator.of(context).pop();
+                },
+                child:const Text("sure")),
+          ]
+      );
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -483,16 +506,24 @@ class _DemoStateWidgetState extends State<DemoStateWidget> {
                   onChanged: (value){
                     setState(() {
                       _switchSelected = value;
+                      //
+                      showToast(_switchSelected);
                     });
                   }),
               Checkbox(
                   activeColor: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(100),
+                  ),
                   value: _checkboxSelected,
                   onChanged: (value){
                     setState(() {
                       _checkboxSelected = value!;
+                      // show alert
+                      showToast(_checkboxSelected);
                     });
-                  }),
+                  }
+              ),
             ],
           ),
         ),
@@ -500,50 +531,565 @@ class _DemoStateWidgetState extends State<DemoStateWidget> {
     );
   }
 }
+
 // TODO: 输入框和表单
-class DemoTextFieldWidget extends StatelessWidget {
+class DemoTextFieldWidget extends StatefulWidget {
   final String naviTitle;
   const DemoTextFieldWidget({super.key, required this.naviTitle});
   @override
+  State<DemoTextFieldWidget> createState() => _DemoTextFieldWidgetState();
+}
+class _DemoTextFieldWidgetState extends State<DemoTextFieldWidget> {
+  // TODO:  抽离
+  EdgeInsetsGeometry paddingEdget = const EdgeInsets.only(left: 50, top: 10, right: 50);
+  EdgeInsetsGeometry contentPadding = const EdgeInsets.fromLTRB(10, 0, 10, 15);
+  BoxConstraints constraintsBox = const BoxConstraints(maxHeight: 44, maxWidth: 200);
+  // 定义一个controller 用于获取输入内容
+  TextEditingController accountController = TextEditingController();
+
+  FocusNode userNode = FocusNode();     // 用户名焦点
+  FocusNode pwdNode = FocusNode();      // 密码焦点
+
+  FocusNode userNode1 = FocusNode();     // 用户名焦点
+  FocusNode pwdNode1 = FocusNode();      // 密码焦点
+
+  FocusNode emailNode = FocusNode();    // 邮箱焦点
+  FocusScopeNode? fsNode;
+
+  // 表单
+  GlobalKey _formKey = GlobalKey<FormState>();
+  final Map<String, TextEditingController> nobleGases = {
+    "userNameController" : TextEditingController(),
+    "pwdController" : TextEditingController(),
+    "emailController" : TextEditingController(),
+  };
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        title: Text(naviTitle),
+        title: Text(widget.naviTitle),
         backgroundColor: Colors.cyanAccent,
       ),
-      body: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.all(50),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxHeight: 250, maxWidth: 200),
-                child: TextField(
-                  autofocus: true,
-                  maxLength: 11,
-                  keyboardType: TextInputType.datetime,
-                  textInputAction: TextInputAction.search,
-                  decoration: InputDecoration(
-                    contentPadding: EdgeInsets.symmetric(vertical: 4.0),
-                    hintText: "username or email",
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      // borderSide: BorderSide.none,
-                      borderSide: BorderSide(color: Colors.blue, width: 1.0, style: BorderStyle.solid),
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.white,
+          child: Column(
+            children: [
+              Container(
+                color: Colors.green,
+                padding: EdgeInsets.all(10),
+                child: Column(
+                  children: [
+                    Padding(
+                      // padding:const EdgeInsets.all(50),
+                      padding:const EdgeInsets.only(left: 50, right: 50, top: 10),
+                      child: ConstrainedBox(
+                        constraints:const BoxConstraints(maxHeight: 250, maxWidth: 200),
+                        child: TextField(
+                          autofocus: true,
+                          controller: accountController, // 设置controller
+                          maxLength: 11,
+                          style:const TextStyle(
+                            fontSize: 15,
+                            overflow: TextOverflow.ellipsis, // 超出部分 显示省略号, 没什么卵用（直接截取了）
+                          ),
+                          keyboardType: TextInputType.datetime,
+                          textInputAction: TextInputAction.done,
+                          decoration: InputDecoration(
+                            contentPadding:const EdgeInsets.symmetric(vertical: 4.0),
+                            hintText: "username or email",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              // borderSide: BorderSide.none,
+                              borderSide:const BorderSide(color: Colors.blue, width: 1.0, style: BorderStyle.solid),
+                            ),
+                            filled: true,
+                            fillColor: const Color(0xffdcdcdc).withAlpha(150),                  //  背景色
+                            prefixIcon: const Icon(Icons.person),                               //  输入框前 icon
+                          ),
+                          onChanged: (value){
+                            if(kDebugMode){
+                              print("input something:$value\n");
+                            }
+                          },
+                          onEditingComplete: (){
+                            print("用户名或邮箱:${accountController.text}\n");
+                          },
+                        ),
+                      ),
                     ),
+                    Padding(
+                      padding: paddingEdget,
+                      child: ConstrainedBox(
+                        constraints: constraintsBox,
+                        child: TextField(
+                          maxLines: 1,
+                          style: const TextStyle(),
+                          decoration: InputDecoration(
+                            contentPadding:const EdgeInsets.fromLTRB(10, 0, 10, 15),
+                            labelText: "密码",
+                            hintText: "输入登录密码",
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            prefixIcon:const Icon(Icons.lock),
+                          ),
+                          obscureText: true, // TODO: 密码脱敏
+                          onChanged: (value){
+                            if(kDebugMode){
+                              print("密码:$value \n");
+                            }
+                          },
+                          onEditingComplete: (){
+                            print("password complete!\n");
+                          },
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: paddingEdget,
+                      child: ConstrainedBox(
+                        constraints: constraintsBox,
+                        child: TextField(
+                          // 输入框的装饰器，用来修改外观
+                          decoration: InputDecoration(
+                            contentPadding: contentPadding,
+                            labelText: "搜索",
+                            hintText: "输入搜索内容",
+                            labelStyle: const TextStyle(color: Colors.black),
+                            fillColor:const Color(0xfffff8f4),
+                            filled: true, // 如果为true，则输入使用fillColor指定的颜色填充
+                            enabledBorder:const OutlineInputBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(5)),
+                              borderSide: BorderSide(color: Colors.green, width: 0.5),
+                            ),
+                            focusedBorder:const OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.red, width: 0.5),
+                                borderRadius: BorderRadius.all(Radius.circular(5))
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                color: Colors.lightGreen,
+                padding:const EdgeInsets.all(10),
+                child:Theme(
+                  data: Theme.of(context).copyWith(
+                      hintColor: Colors.grey[200],
+                      inputDecorationTheme:const InputDecorationTheme(
+                        labelStyle: TextStyle(
+                          color: Colors.grey,
+                        ),
+                        hintStyle: TextStyle(color: Colors.grey, fontSize: 14.0),
+                      )
+                  ),
+                  child:Column(
+                    children:[
+                      TextField(
+                        focusNode: userNode,
+                        decoration:const InputDecoration(
+                          labelText: "用户名",
+                          hintText: "输入用户名",
+                          prefixIcon: Icon(Icons.person),
+                        ),
+                        onChanged: (value){
+                          debugPrint("输入用户名:$value \n");
+                        },
+                      ),
+                      TextField(
+                        focusNode: pwdNode,
+                        decoration:const InputDecoration(
+                            labelText: "密码",
+                            hintText: "输入密码",
+                            hintStyle: TextStyle(
+                                color: Colors.grey, fontSize: 14.0
+                            ),
+                            prefixIcon: Icon(Icons.lock)
+                        ),
+                        obscureText: true,
+                      ),
+                      Container(
+                        decoration: BoxDecoration(
+                            border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.grey.withAlpha(200),
+                                  width: 0.5,
+                                )
+                            )
+                        ),
+                        child:TextField(
+                          focusNode: emailNode,
+                          decoration:const InputDecoration(
+                            labelText: "email",
+                            hintText: "输入邮箱",
+                            prefixIcon: Icon(Icons.email),
+                            border: InputBorder.none,       // 隐藏下划线
+                          ),
+                        ),
+                      ),
+                      Builder(builder: (ctx){
+                        return Column(
+                          children: [
+                            ElevatedButton(
+                                onPressed: (){
+                                  fsNode ??= FocusScope.of(context);
+                                  fsNode?.requestFocus(pwdNode);
+                                },
+                                child: Text("移动焦点")),
+                            ElevatedButton(
+                                onPressed: (){
+                                  userNode.unfocus();
+                                  pwdNode.unfocus();
+                                  emailNode.unfocus();
+                                },
+                                child: Text("隐藏键盘")),
+                          ],
+                        );
+                      }),
+                    ],
                   ),
                 ),
               ),
-            ),
-          ],
+              Padding(
+                padding:const EdgeInsets.symmetric(vertical: 16.0, horizontal: 24.0),
+                child: Form(
+                  key: _formKey,
+                  autovalidateMode: AutovalidateMode.always, // 开启自动校验
+                  child:Column(
+                    children: [
+                      TextFormField(
+                        focusNode: userNode1,
+                        autofocus: true,
+                        decoration:const InputDecoration(
+                          labelText: "用户名",
+                          hintText: "输入用户名",
+                          icon: Icon(Icons.person),
+                        ),
+                        // 校验用户名
+                        validator: (v){
+                          return (v!.trim().isNotEmpty) ? null : "用户名不能未空";
+                        },
+                      ),
+                      TextFormField(
+                        focusNode: pwdNode1,
+                        autofocus: true,
+                        decoration:const InputDecoration(
+                          labelText: "密码",
+                          hintText: "输入密码",
+                          icon: Icon(Icons.lock),
+                        ),
+                        // 校验用户名
+                        validator: (v){
+                          return (v!.trim().isNotEmpty) ? null : "密码不能少于6位";
+                        },
+                      ),
+                      Padding(
+                        padding:const EdgeInsets.only(top: 5),
+                        child: Row(
+                          children: [
+                            Expanded(
+                                child: ElevatedButton(
+                                    onPressed: (){
+                                      // 不能通过此方式获取 FormState, context 不对
+                                      // 通过 _formKey.currentState 获取 FormState后，
+                                      // 调用 validate() 校验用户名 密码 是否合法， 校验通过后 提交数据
+                                      if((_formKey.currentState as FormState).validate()){
+                                        (_formKey.currentState as FormState).save();
+                                        (_formKey.currentState as FormState).reset();
+                                        //
+                                        userNode1.unfocus();
+                                        pwdNode1.unfocus();
+                                      }
+                                    },
+                                    child:const Text("提交"),
+                                ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+// class DemoTextFieldWidget extends StatelessWidget {
+//   final String naviTitle;
+//   const DemoTextFieldWidget({super.key, required this.naviTitle});
+//   @override
+//   Widget build(BuildContext context) {
+//     // TODO:  抽离
+//     EdgeInsetsGeometry paddingEdget = const EdgeInsets.only(left: 50, top: 10, right: 50);
+//     EdgeInsetsGeometry contentPadding = const EdgeInsets.fromLTRB(10, 0, 10, 15);
+//     BoxConstraints constraintsBox = const BoxConstraints(maxHeight: 44, maxWidth: 200);
+//     // 定义一个controller 用于获取输入内容
+//     TextEditingController accountController = TextEditingController();
+//
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: Text(naviTitle),
+//         backgroundColor: Colors.cyanAccent,
+//       ),
+//       body: Container(
+//         color: Colors.white,
+//         child: Column(
+//           children: [
+//             Container(
+//               color: Colors.green,
+//               padding: EdgeInsets.all(10),
+//               child: Column(
+//                 children: [
+//                   Padding(
+//                     // padding:const EdgeInsets.all(50),
+//                     padding:const EdgeInsets.only(left: 50, right: 50, top: 10),
+//                     child: ConstrainedBox(
+//                       constraints:const BoxConstraints(maxHeight: 250, maxWidth: 200),
+//                       child: TextField(
+//                         autofocus: true,
+//                         controller: accountController, // 设置controller
+//                         maxLength: 11,
+//                         style:const TextStyle(
+//                           fontSize: 15,
+//                           overflow: TextOverflow.ellipsis, // 超出部分 显示省略号, 没什么卵用（直接截取了）
+//                         ),
+//                         keyboardType: TextInputType.datetime,
+//                         textInputAction: TextInputAction.done,
+//                         decoration: InputDecoration(
+//                           contentPadding:const EdgeInsets.symmetric(vertical: 4.0),
+//                           hintText: "username or email",
+//                           border: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(10.0),
+//                             // borderSide: BorderSide.none,
+//                             borderSide:const BorderSide(color: Colors.blue, width: 1.0, style: BorderStyle.solid),
+//                           ),
+//                           filled: true,
+//                           fillColor: const Color(0xffdcdcdc).withAlpha(150),                  //  背景色
+//                           prefixIcon: const Icon(Icons.person),                               //  输入框前 icon
+//                         ),
+//                         onChanged: (value){
+//                           if(kDebugMode){
+//                             print("input something:$value\n");
+//                           }
+//                         },
+//                         onEditingComplete: (){
+//                           print("用户名或邮箱:${accountController.text}\n");
+//                         },
+//                       ),
+//                     ),
+//                   ),
+//                   Padding(
+//                     padding: paddingEdget,
+//                     child: ConstrainedBox(
+//                       constraints: constraintsBox,
+//                       child: TextField(
+//                         maxLines: 1,
+//                         style: const TextStyle(),
+//                         decoration: InputDecoration(
+//                           contentPadding:const EdgeInsets.fromLTRB(10, 0, 10, 15),
+//                           labelText: "密码",
+//                           hintText: "输入登录密码",
+//                           border: OutlineInputBorder(
+//                             borderRadius: BorderRadius.circular(10.0),
+//                           ),
+//                           prefixIcon:const Icon(Icons.lock),
+//                         ),
+//                         obscureText: true, // TODO: 密码脱敏
+//                         onChanged: (value){
+//                           if(kDebugMode){
+//                             print("密码:$value \n");
+//                           }
+//                         },
+//                         onEditingComplete: (){
+//                           print("password complete!\n");
+//                         },
+//                       ),
+//                     ),
+//                   ),
+//                   Padding(
+//                     padding: paddingEdget,
+//                     child: ConstrainedBox(
+//                       constraints: constraintsBox,
+//                       child: TextField(
+//                         // 输入框的装饰器，用来修改外观
+//                         decoration: InputDecoration(
+//                           contentPadding: contentPadding,
+//                           labelText: "搜索",
+//                           hintText: "输入搜索内容",
+//                           labelStyle: const TextStyle(color: Colors.black),
+//                           fillColor:const Color(0xfffff8f4),
+//                           filled: true, // 如果为true，则输入使用fillColor指定的颜色填充
+//                           enabledBorder:const OutlineInputBorder(
+//                             borderRadius: BorderRadius.all(Radius.circular(5)),
+//                             borderSide: BorderSide(color: Colors.green, width: 0.5),
+//                           ),
+//                           focusedBorder:const OutlineInputBorder(
+//                               borderSide: BorderSide(color: Colors.red, width: 0.5),
+//                               borderRadius: BorderRadius.all(Radius.circular(5))
+//                           ),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//             ),
+//             Container(
+//               color: Colors.red,
+//               padding:const EdgeInsets.all(10),
+//               child:Theme(
+//                   data: Theme.of(context).copyWith(
+//                       hintColor: Colors.grey[200],
+//                       inputDecorationTheme:const InputDecorationTheme(
+//                         labelStyle: TextStyle(
+//                           color: Colors.grey,
+//                         ),
+//                         hintStyle: TextStyle(color: Colors.grey, fontSize: 14.0),
+//                       )
+//                   ),
+//                   child:Column(
+//                     children: [
+//                       TextField(
+//                         decoration: InputDecoration(
+//                           labelText: "用户名",
+//                           hintText: "输入用户名",
+//                           prefixIcon: Icon(Icons.person),
+//                         ),
+//                       ),
+//                       TextField(
+//                         decoration: InputDecoration(
+//                           labelText: "密码",
+//                           hintText: "输入密码",
+//                           hintStyle: TextStyle(
+//                             color: Colors.grey, fontSize: 14.0
+//                           ),
+//                           prefixIcon: Icon(Icons.lock)
+//                         ),
+//                         obscureText: true,
+//                       ),
+//                       Container(
+//                         child: TextField(
+//                           decoration: InputDecoration(
+//                             labelText: "email",
+//                             hintText: "输入邮箱",
+//                             prefixIcon: Icon(Icons.email),
+//                             border: InputBorder.none,       // 隐藏下划线
+//                           ),
+//                         ),
+//                         decoration: BoxDecoration(
+//                           border: Border(
+//                             bottom: BorderSide(
+//                               color: Colors.grey.withAlpha(200),
+//                               width: 0.5,
+//                             )
+//                           )
+//                         ),
+//                       ),
+//                     ],
+//                   ),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
 
 // TODO: 进度指示器
+class DemoProgressWidget extends StatefulWidget {
+  const DemoProgressWidget({super.key});
+
+  @override
+  State<DemoProgressWidget> createState() => _DemoProgressWidgetState();
+}
+
+class _DemoProgressWidgetState extends State<DemoProgressWidget> {
+
+  EdgeInsetsGeometry paddingEdget = const EdgeInsets.only(left: 20, top: 10, right: 20);
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title:const Text("ProgressWidget"),
+        backgroundColor: Colors.white,
+      ),
+      body: SingleChildScrollView(
+        child:Container(
+          child: Column(
+            children:[
+              Padding(
+                padding:paddingEdget,
+                child: SpinKitCircle(
+                  color: Colors.black12.withAlpha(100),
+                  size: 50,
+                ),
+              ),
+              Padding(
+                padding: paddingEdget,
+                child:const SpinKitWave(
+                  color: Colors.cyanAccent,
+                  size: 50,
+                ),
+              ),
+              Padding(
+                padding: paddingEdget,
+                child:const SpinKitFadingFour(
+                  color: Colors.grey,
+                  size: 50,
+                )
+              ),
+              Padding(
+                padding: paddingEdget,
+                child:const SpinKitPulse(
+                  color: Colors.blue,
+                  size: 50,
+                  duration: Duration(seconds: 3),
+                )
+              ),
+              Padding(
+                padding: paddingEdget,
+                child:const SpinKitDualRing(color: Colors.yellow, size: 50,)
+              ),
+              Padding(
+                padding: paddingEdget,
+                child:const SpinKitRipple(color: Colors.green, size: 50,)
+              ),
+              Padding(
+                  padding: paddingEdget,
+                  child:const SpinKitPumpingHeart(color: Colors.red, size: 50,)
+              ),
+              Padding(
+                  padding: paddingEdget,
+                  child:const SpinKitChasingDots(color: Colors.black, size: 50,)
+              ),
+            ],
+          ),
+        ),
+      ),
+      // body: SpinKitCircle(
+      //   color: Colors.black12.withAlpha(100),
+      //   size: 50,
+      // ),
+    );
+  }
+}
 
 
 

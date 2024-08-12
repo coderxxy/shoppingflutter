@@ -43,6 +43,7 @@ dependencies:
 #  flutter_styled_toast: ^2.2.1
   shirne_dialog: ^4.7.4
   bot_toast: ^4.1.0
+  flutter_spinkit: ^5.2.1
 
 dev_dependencies:
   flutter_test:
