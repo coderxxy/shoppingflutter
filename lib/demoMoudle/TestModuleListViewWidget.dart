@@ -55,8 +55,8 @@ class TestModuleListViewWidget extends StatelessWidget {
 
             ListTile(
               leading: Icon(Icons.dashboard_customize, color: Colors.blueAccent.withAlpha(200),),
-              title: const Text("ListView.custom"),
-              subtitle: const Text("custom"),
+              title: const Text("ListView SliverAppBar SliverList"),
+              subtitle: const Text("Sliver"),
               onTap: (){
                 Navigator.push(context, MaterialPageRoute(builder: (builder)=> const ListCustomViewWidget()));
               },
@@ -209,14 +209,43 @@ class ListCustomViewWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final List<String> items = List.generate(20, (index) => 'Item ${index + 1}');
     return Scaffold(
-      body: Container(
-        color: Colors.greenAccent,
-      ),
-      appBar: AppBar(
-        title: const Text("Custom"),
-        backgroundColor: Colors.pink,
-      ),
+      body: CustomScrollView(
+        slivers: <Widget>[
+          SliverAppBar(
+            title: Text('Dynamic AppBar'),
+            pinned: true,
+            expandedHeight: 150.0,
+            flexibleSpace: FlexibleSpaceBar(
+              // title: Text('Flexible Space'),
+              background: Image.network(
+                'https://t7.baidu.com/it/u=4110758653,2063479218&fm=193&f=GIF',
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SliverList(
+            delegate: SliverChildBuilderDelegate(
+                  (BuildContext context, int index) {
+                return ListTile(
+                  title: Text(items[index]),
+                  onTap: (){
+                    print("didSelected: $index \n");
+                  },
+                );
+              },
+              childCount: items.length,
+            ),
+          ),
+        ],
+      )
     );
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: const Text("Custom"),
+    //     backgroundColor: Colors.pink,
+    //   ),
+    // );
   }
 }

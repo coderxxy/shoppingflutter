@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shopping_flutter/untilWidget/XYStarRatingWidget.dart';
 
 class TestModuleImageWidget extends StatelessWidget {
   final String itemTitle;
@@ -20,7 +21,9 @@ class TestModuleImageWidget extends StatelessWidget {
         shadowColor: Colors.green,
       ),
       body: Container(
-        color: Colors.pink.withAlpha(100),
+        alignment: Alignment.center,
+        color: Colors.white.withAlpha(100),
+        child: XYStarRatingWidget(rating: 1.05, count: 5),
       ),
     );
   }
