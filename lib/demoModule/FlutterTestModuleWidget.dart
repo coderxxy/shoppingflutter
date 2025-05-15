@@ -3,17 +3,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:shopping_flutter/basemodule/xy_appbar_widget.dart';
-import 'package:shopping_flutter/demoMoudle/TestModuleBaseWidget.dart';
-import 'package:shopping_flutter/demoMoudle/TestModuleButtonWidget.dart';
-import 'package:shopping_flutter/demoMoudle/TestModuleCustomWidget.dart';
-import 'package:shopping_flutter/demoMoudle/TestModuleGridViewWidget.dart';
-import 'package:shopping_flutter/demoMoudle/TestModuleImageWidget.dart';
-import 'package:shopping_flutter/demoMoudle/TestModuleListViewWidget.dart';
-import 'package:shopping_flutter/demoMoudle/TestModuleUILayoutWidget.dart';
+import 'package:shopping_flutter/demoModule/TestModuleBaseWidget.dart';
+import 'package:shopping_flutter/demoModule/TestModuleButtonWidget.dart';
+import 'package:shopping_flutter/demoModule/TestModuleCustomWidget.dart';
+import 'package:shopping_flutter/demoModule/TestModuleGridViewWidget.dart';
+import 'package:shopping_flutter/demoModule/TestModuleImageWidget.dart';
+import 'package:shopping_flutter/demoModule/TestModuleListViewWidget.dart';
+import 'package:shopping_flutter/demoModule/TestModuleUILayoutWidget.dart';
+import './test_module_router_widget.dart';
+
 
 class FlutterTestModuleWidget extends StatelessWidget {
   final String title;
-  final List<String> _actionsTitle = ["ListView", "GridView", "ImageWidget", "buttonWidget", "LayoutWidget", "CustomWidget", "BaseWidget"];
+  final List<String> _actionsTitle = ["ListView", "GridView", "ImageWidget", "buttonWidget", "LayoutWidget", "CustomWidget", "BaseWidget", "Router"];
   final List<String> _iconsSource = [
     "images/mine/mine_icon_disk@2x.png",
     "images/mine/mine_icon_order@2x.png",
@@ -79,6 +81,9 @@ class FlutterTestModuleWidget extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => TestModuleBaseWidget())
                 );
+              }
+              if(title == "Router" || title.contains("Router".toLowerCase())) {
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const TestModuleRouterWidget()));
               }
               if(kDebugMode){
                 print("click $idx cell, ${_actionsTitle[idx]}");

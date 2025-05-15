@@ -8,13 +8,13 @@ class TestModuleCustomWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("TestModuleCustomWidget"),
+        title: const Text("TestModuleCustomWidget"),
         backgroundColor: Colors.blueAccent,
       ),
       body: Column(
         children: [
           Container(
-            padding:EdgeInsets.only(left: 0, top: 10, right: 0,bottom: 10),
+            padding:const EdgeInsets.only(left: 0, top: 10, right: 0,bottom: 10),
             color: Colors.white,
             child:const CustomPainRoute(),
           ),
@@ -26,8 +26,8 @@ class TestModuleCustomWidget extends StatelessWidget {
               ),
               child: Container(
                 color: Colors.yellowAccent,
-                padding: EdgeInsets.all(12.0),
-                child: Text('Custom Card'),
+                padding: const EdgeInsets.all(12.0),
+                child: const Text('Custom Card'),
               ),
             ),
           ),

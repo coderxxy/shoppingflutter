@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_flutter/networkModule/networkModule.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flukit/flukit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:shopping_flutter/modelsModule/weather_model_widget.dart';
 
 
 // class HomePageWidget extends StatelessWidget{
@@ -64,8 +67,9 @@ class HomePageState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-
-    AppNetworkWidget.homePageNetwork();
+    // AppNetworkWidget.homePageNetwork();
+    TestWeatherModel? weatherModel = AppNetworkWidget.homePageNetwork() as TestWeatherModel;
+    print('解析：${weatherModel.cityInfo?.city!}');
     final List<String> _imgUrls = [
       "https://img1.baidu.com/it/u=3672580894,2320729294&fm=253&fmt=auto&app=138&f=JPEG?w=852&h=500",
       'https://wx2.sinaimg.cn/large/005vUG0aly4gowhn5wjd1j31c00u0toe.jpg',

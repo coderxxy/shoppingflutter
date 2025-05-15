@@ -4,7 +4,7 @@ import 'package:shopping_flutter/homeModule/xy_home_tabbarPage.dart';
 import 'package:shopping_flutter/categoriesModule/xy_categories_tabbarPage.dart';
 import 'package:shopping_flutter/shoppingCarModule/xy_shoppingCar_tabbarPage.dart';
 import 'package:shopping_flutter/mineModule/xy_mine_tabbarPage.dart';
-import 'package:shopping_flutter/demoMoudle/FlutterTestModuleWidget.dart';
+import 'package:shopping_flutter/demoModule/FlutterTestModuleWidget.dart';
 
 class ShopAppTabar extends StatefulWidget{
   const ShopAppTabar({super.key});
