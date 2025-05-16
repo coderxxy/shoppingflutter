@@ -13,7 +13,7 @@ class AppNetworkWidget {
       Response response;
       response = await Dio().get('http://t.weather.sojson.com/api/weather/city/101210108');
       if (response.data != null){
-          print('response:\n $response');
+          // print('response:\n $response');
           TestWeatherModel model = TestWeatherModel.fromJson(response.data);
         return model;
       }
