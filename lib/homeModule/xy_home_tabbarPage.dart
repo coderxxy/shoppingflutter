@@ -150,7 +150,7 @@ class HomePageState extends State<HomePageWidget> {
         Expanded(
           flex: 1,
           child: Text(
-            '${weatherModel!.cityInfo!.parent!}:${weatherModel!.cityInfo!.city!},\n 当天温度：${weatherModel!.data!.wendu},\n 湿度：${weatherModel!.data!.shidu}',
+            '${weatherModel?.cityInfo!.parent!}:${weatherModel?.cityInfo!.city!},\n 当天温度：${weatherModel?.data!.wendu},\n 湿度：${weatherModel?.data!.shidu}',
             textAlign: TextAlign.center,
             style: const TextStyle(
               color: Colors.blueAccent,
