@@ -79,6 +79,9 @@ flutter:
     - images/mine/mine_sign_icon@2x.png
     - images/mine/mine_sign_icon_left@2x.png
     - images/mine/mine_icon_aviator.png
+    - images/mine/mine_disdainful.png
+    # 或者整个目录（推荐）
+    - images/mine/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

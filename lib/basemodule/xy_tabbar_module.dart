@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shopping_flutter/homeModule/xy_home_tabbarPage.dart';
@@ -29,7 +30,7 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
         label: '首页'
     ),
     BottomNavigationBarItem(
-        icon: Icon(Icons.category),
+        icon: Icon(Icons.search),
         label: '分类'
     ),
     BottomNavigationBarItem(
@@ -37,7 +38,7 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
         label: '购物车'
     ),
     BottomNavigationBarItem(
-        icon: Icon(Icons.card_membership),
+        icon: Icon(CupertinoIcons.profile_circled),
         label: '会员中心'
     ),
   ];
@@ -79,7 +80,7 @@ class ThemeAppTabbar extends State<ShopAppTabar>{
           _titlesList[_clickIdx],
           textAlign: TextAlign.center,
         ),
-        backgroundColor: Colors.pink,
+        backgroundColor: Color.fromRGBO(228, 0, 127, 1.0),
         titleTextStyle: const TextStyle(
           color: Colors.white,
           fontSize: 20,
