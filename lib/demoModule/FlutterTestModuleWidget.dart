@@ -10,12 +10,13 @@ import 'package:shopping_flutter/demoModule/TestModuleGridViewWidget.dart';
 import 'package:shopping_flutter/demoModule/TestModuleImageWidget.dart';
 import 'package:shopping_flutter/demoModule/TestModuleListViewWidget.dart';
 import 'package:shopping_flutter/demoModule/TestModuleUILayoutWidget.dart';
+import 'package:shopping_flutter/demoModule/test_module_container_widget.dart';
 import './test_module_router_widget.dart';
 
 
 class FlutterTestModuleWidget extends StatelessWidget {
   final String title;
-  final List<String> _actionsTitle = ["ListView", "GridView", "ImageWidget", "buttonWidget", "LayoutWidget", "CustomWidget", "BaseWidget", "Router"];
+  final List<String> _actionsTitle = ["ListView", "GridView", "ImageWidget", "buttonWidget", "LayoutWidget", "CustomWidget", "BaseWidget", "Router", "Container"];
   final List<String> _iconsSource = [
     "images/mine/mine_icon_disk@2x.png",
     "images/mine/mine_icon_order@2x.png",
@@ -84,6 +85,9 @@ class FlutterTestModuleWidget extends StatelessWidget {
               }
               if(title == "Router" || title.contains("Router".toLowerCase())) {
                 Navigator.push(context, MaterialPageRoute(builder: (context)=> const TestModuleRouterWidget()));
+              }
+              if("container".toLowerCase() == title){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=> const TestModuleContainerWidget()));
               }
               if(kDebugMode){
                 print("click $idx cell, ${_actionsTitle[idx]}");
