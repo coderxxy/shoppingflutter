@@ -19,7 +19,7 @@ class appModule extends StatelessWidget {
     );
     // TODO: implement build
     return const MaterialApp(
-      title: '百姓生活家',
+      // title: '百姓生活家',
       debugShowCheckedModeBanner: false,
       // theme: ThemeData(
       //   //primaryColor: Colors.pink,

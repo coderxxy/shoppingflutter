@@ -8,49 +8,6 @@ import 'package:flukit/flukit.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:shopping_flutter/modelsModule/weather_model_widget.dart';
 
-// class HomePageWidget extends StatelessWidget{
-//   // 编辑控制器
-//   final TextEditingController _editVC = TextEditingController();
-//   final String _showMsg = '请放心购买...';
-//
-//   HomePageWidget({super.key});
-//   @override
-//   Widget build (BuildContext context){
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('商店'),
-//       ),
-//       body: Column(
-//         children: <Widget>[
-//           TextField(
-//             controller: _editVC,
-//             decoration: const InputDecoration(
-//                 contentPadding: EdgeInsets.all(20),
-//                 labelText: '推荐购买',
-//                 helperText: '请输入您想搜索的商品'
-//             ),
-//             autofocus: false,
-//           ),
-//           Text(
-//             _showMsg,
-//             overflow: TextOverflow.ellipsis,
-//             maxLines: 1,
-//           ),
-//           // RaisedButton 已被弃用
-//           ElevatedButton(
-//               onPressed: (){
-//                 if(kDebugMode){
-//                   print('选中了且已提交');
-//                 }
-//               },
-//               child: const Text('确定')
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
 class HomePageWidget extends StatefulWidget {
   const HomePageWidget({super.key});
 
@@ -160,61 +117,6 @@ class HomePageState extends State<HomePageWidget> {
         ),
       ],
     );
-    // return Container(
-    //   color: Colors.white,
-    //   width: screenW,
-    //   height: ScreenUtil().setHeight(screenW*0.50),
-    //   child: SingleChildScrollView(
-    //     child: Column(
-    //       children: <Widget>[
-    //         TextField(
-    //           controller: _editVC,
-    //           decoration: const InputDecoration(
-    //               contentPadding: EdgeInsets.all(20),
-    //               labelText: '推荐购买',
-    //               // helperText: '请输入您想搜索的商品',
-    //               hintText: '请输入您想搜索的商品'
-    //           ),
-    //           autofocus: false,
-    //         ),
-    //         Text(
-    //           _showMsg,
-    //           overflow: TextOverflow.ellipsis,
-    //           maxLines: 1,
-    //         ),
-    //         // RaisedButton 已被弃用
-    //         ElevatedButton(
-    //             onPressed: () {
-    //               String errMsg  = '';
-    //               if(_editVC.text.isEmpty){
-    //                 errMsg = '请先输入商品';
-    //               }
-    //               else{
-    //                 errMsg = _editVC.text;
-    //               }
-    //               if (kDebugMode) {
-    //                 print('选中了且已提交');
-    //                 // alert
-    //                 showDialog(context: context, builder: (context)=>AlertDialog(title: Text(errMsg),));
-    //               }
-    //             },
-    //             child: const Text('确定')
-    //         ),
-    //
-    //         AspectRatio(
-    //             aspectRatio: 1.0,
-    //           child: Swiper(
-    //             indicatorAlignment: AlignmentDirectional.topEnd,
-    //               circular: true,
-    //               autoStart: true,
-    //               indicator: NumberSwiperIndicator(),
-    //               children:AspecRaticImgs(_imgUrls, screenW, ScreenUtil().setHeight(screenW*0.50)),
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //   ),
-    // );
   }
 }
 
